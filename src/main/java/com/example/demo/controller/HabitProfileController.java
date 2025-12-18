@@ -2,8 +2,9 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import com.example.demo.service.HabitProfileService;
+
 import com.example.demo.model.HabitProfile;
+import com.example.demo.service.HabitProfileService;
 
 @RestController
 public class HabitProfileController {
