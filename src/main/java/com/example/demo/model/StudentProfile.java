@@ -1,5 +1,5 @@
 
-package com.example.ammo.model;
+package com.example.demmo.model;
 
 import java.time.LocalDateTime;
 

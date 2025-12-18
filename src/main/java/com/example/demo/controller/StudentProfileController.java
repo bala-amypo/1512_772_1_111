@@ -1,4 +1,4 @@
-package com.example.ammo.controller;
+package com.example.demo.controller;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ammo.model.StudentProfile;
-import com.example.ammo.service.StudentProfileService;
+import com.example.demo.model.StudentProfile;
+import com.example.demo.service.StudentProfileService;
 
 @RestController
 public class StudentProfileController {
