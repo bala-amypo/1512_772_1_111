@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.StudentProfileRepository;
 
