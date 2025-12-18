@@ -19,4 +19,3 @@ public class Swaggerconfig {
         }
 }
 
-extract as text 
