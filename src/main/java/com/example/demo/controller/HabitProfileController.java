@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.example.demo.service.HabitProfileService;
-import com.example.demo.modul.HabitProfile;
+import com.example.demo.model.HabitProfile;
 
 @RestController
 public class HabitProfileController {
