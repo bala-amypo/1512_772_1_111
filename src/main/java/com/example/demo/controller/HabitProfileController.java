@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
@@ -17,7 +17,7 @@ public class HabitProfileController {
 
     @PostMapping("/addhabit")
     public HabitProfile add(@RequestBody HabitProfile h) {
-        return service.saveHabit(h);
+        return service.addHabit(h);
     }
 
     @GetMapping("/showhabits")
