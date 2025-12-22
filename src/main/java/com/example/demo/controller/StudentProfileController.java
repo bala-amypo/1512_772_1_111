@@ -14,24 +14,24 @@ public class StudentProfileController {
 
     private final StudentProfileService service;
 
-    // Constructor Injection
+    
     public StudentProfileController(StudentProfileService service) {
         this.service = service;
     }
 
-    // POST – create student
+    
     @PostMapping("/addstudent")
     public StudentProfile addStudent(@RequestBody StudentProfile student) {
         return service.createStudent(student);
     }
 
-    // GET – list all students
+   
     @GetMapping("/showstudents")
     public List<StudentProfile> showStudents() {
         return service.getAllStudents();
     }
 
-    // ✅ PUT – activate / deactivate student  ← INSERTED HERE
+    
     @PutMapping("/{id}/status")
     public StudentProfile updateStatus(
             @PathVariable Long id,
