@@ -12,7 +12,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    // 🔴 NOT FOUND (404)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(
             ResourceNotFoundException ex) {
@@ -26,7 +25,6 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    // 🟠 BAD REQUEST (400) – validation errors
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> handleBadRequest(
             IllegalArgumentException ex) {
@@ -40,7 +38,6 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    // ⚫ INTERNAL SERVER ERROR (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneral(
             Exception ex) {
