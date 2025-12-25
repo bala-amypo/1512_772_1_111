@@ -4,17 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 public class CompatibilityScore {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long studentAId;
-    private Long studentBId;
-    private double score;
+
+    private Long studentA;
+    private Long studentB;
+    private int score;
 
     public Long getId() { return id; }
-    public Long getStudentAId() { return studentAId; }
-    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
-    public Long getStudentBId() { return studentBId; }
-    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
-    public double getScore() { return score; }
-    public void setScore(double score) { this.score = score; }
+    public Long getStudentA() { return studentA; }
+    public Long getStudentB() { return studentB; }
+    public int getScore() { return score; }
+
+    public void setStudentA(Long studentA) { this.studentA = studentA; }
+    public void setStudentB(Long studentB) { this.studentB = studentB; }
+    public void setScore(int score) { this.score = score; }
 }
