@@ -19,9 +19,9 @@ public class HabitProfileServiceImpl implements HabitProfileService {
 
     @Override
     public HabitProfile createOrUpdateHabit(HabitProfile habit) {
-        if (habit.getStudyHoursPerDay() < 0) {
+        if (habit.getStudyHoursPerDay() < 0)
             throw new IllegalArgumentException("study hours");
-        }
+
         habit.setUpdatedAt(LocalDateTime.now());
         return repo.save(habit);
     }
@@ -33,13 +33,13 @@ public class HabitProfileServiceImpl implements HabitProfileService {
     }
 
     @Override
-    public List<HabitProfile> getAllHabitProfiles() {
-        return repo.findAll();
-    }
-
-    @Override
     public HabitProfile getHabitById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
+    }
+
+    @Override
+    public List<HabitProfile> getAllHabitProfiles() {
+        return repo.findAll();
     }
 }
