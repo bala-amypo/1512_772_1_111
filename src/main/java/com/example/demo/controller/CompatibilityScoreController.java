@@ -1,29 +1,40 @@
 package com.example.demo.controller;
 
-import java.util.List;
+import com.example.demo.model.CompatibilityScoreRecord;
+import com.example.demo.service.CompatibilityScoreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.CompatibilityScore;
-import com.example.demo.service.CompatibilityScoreService;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/compatibility")
+@Tag(name = "Compatibility Scores")
 public class CompatibilityScoreController {
 
     private final CompatibilityScoreService service;
 
-    public CompatibilityScoreController(
-            CompatibilityScoreService service) {
+    public CompatibilityScoreController(CompatibilityScoreService service) {
         this.service = service;
     }
 
-    @PostMapping("/addscore")
-    public CompatibilityScore add(
-            @RequestBody CompatibilityScore cs) {
-        return service.addScore(cs);
+    @PostMapping("/compute/{a}/{b}")
+    public CompatibilityScoreRecord compute(@PathVariable Long a, @PathVariable Long b) {
+        return service.computeScore(a, b);
     }
 
-    @GetMapping("/showscores")
-    public List<CompatibilityScore> show() {
+    @GetMapping("/student/{studentId}")
+    public List<CompatibilityScoreRecord> getForStudent(@PathVariable Long studentId) {
+        return service.getScoresForStudent(studentId);
+    }
+
+    @GetMapping("/{id}")
+    public CompatibilityScoreRecord get(@PathVariable Long id) {
+        return service.getScoreById(id);
+    }
+
+    @GetMapping
+    public List<CompatibilityScoreRecord> getAll() {
         return service.getAllScores();
     }
 }

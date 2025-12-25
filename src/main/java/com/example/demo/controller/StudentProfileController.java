@@ -9,35 +9,37 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
-@Tag(name = "student-profile-controller")
+@Tag(name = "Student Profiles")
 public class StudentProfileController {
 
     private final StudentProfileService service;
 
-    
     public StudentProfileController(StudentProfileService service) {
         this.service = service;
     }
 
-    
-    @PostMapping("/addstudent")
-    public StudentProfile addStudent(@RequestBody StudentProfile student) {
-        return service.createStudent(student);
+    @PostMapping
+    public StudentProfile create(@RequestBody StudentProfile profile) {
+        return service.createStudent(profile);
     }
 
-   
-    @GetMapping("/showstudents")
-    public List<StudentProfile> showStudents() {
+    @GetMapping("/{id}")
+    public StudentProfile get(@PathVariable Long id) {
+        return service.getStudentById(id);
+    }
+
+    @GetMapping
+    public List<StudentProfile> getAll() {
         return service.getAllStudents();
     }
 
-    
     @PutMapping("/{id}/status")
-    public StudentProfile updateStatus(
-            @PathVariable Long id,
-            @RequestParam boolean active) {
+    public void updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+        service.updateStudentStatus(id, active);
+    }
 
-        return service.updateStudentStatus(id, active);
+    @GetMapping("/lookup/{studentId}")
+    public StudentProfile lookup(@PathVariable String studentId) {
+        return service.findByStudentId(studentId);
     }
 }
-

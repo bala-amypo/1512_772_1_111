@@ -18,21 +18,23 @@ public class HabitProfileController {
         this.service = service;
     }
 
-    @PostMapping("/{studentId}")
-    public HabitProfile createOrUpdate(
-            @PathVariable Long studentId,
-            @RequestBody HabitProfile habit) {
-
-        return service.createOrUpdate(studentId, habit);
+    @PostMapping
+    public HabitProfile save(@RequestBody HabitProfile habit) {
+        return service.createOrUpdateHabit(habit);
     }
 
-    @GetMapping("/{studentId}")
-    public HabitProfile getForStudent(@PathVariable Long studentId) {
-        return service.getForStudent(studentId);
+    @GetMapping("/student/{studentId}")
+    public HabitProfile getByStudent(@PathVariable Long studentId) {
+        return service.getHabitByStudent(studentId);
+    }
+
+    @GetMapping("/{id}")
+    public HabitProfile getById(@PathVariable Long id) {
+        return service.getHabitById(id);
     }
 
     @GetMapping
     public List<HabitProfile> getAll() {
-        return service.getAll();
+        return service.getAllHabitProfiles();
     }
 }
