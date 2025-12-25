@@ -4,6 +4,6 @@ import com.example.demo.model.CompatibilityScore;
 import java.util.List;
 
 public interface CompatibilityScoreService {
-    CompatibilityScore computeScore(Long a, Long b);
+    CompatibilityScore addScore(CompatibilityScore score);
     List<CompatibilityScore> getAllScores();
 }
