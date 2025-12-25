@@ -1,27 +1,21 @@
-package com.example.demo.service;
-
-import java.util.List;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.model.MatchAttemptRecord;
-import com.example.demo.repository.MatchAttemptRecordRepository;
-
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository repo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) {
-        this.repo = repo;
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository r) { this.repo = r; }
+
+    public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord r) {
+        return repo.save(r);
     }
 
-    @Override
-    public MatchAttemptRecord addAttempt(MatchAttemptRecord attempt) {
-        return repo.save(attempt);
+    public MatchAttemptRecord updateAttemptStatus(long id, String s) {
+        MatchAttemptRecord r = repo.findById(id).orElseThrow();
+        r.setStatus(MatchAttemptRecord.Status.valueOf(s));
+        return repo.save(r);
     }
 
-    @Override
-    public List<MatchAttemptRecord> getAllAttempts() {
+    public List<MatchAttemptRecord> getAllMatchAttempts() {
         return repo.findAll();
     }
 }

@@ -1,29 +1,32 @@
-package com.example.demo.service;
-
-import java.util.List;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.model.CompatibilityScore;
-import com.example.demo.repository.CompatibilityScoreRepository;
-
 @Service
-public class CompatibilityScoreServiceImpl
-        implements CompatibilityScoreService {
+public class CompatibilityScoreServiceImpl implements CompatibilityScoreService {
 
-    private final CompatibilityScoreRepository repo;
+    private final CompatibilityScoreRecordRepository repo;
+    private final HabitProfileRepository habitRepo;
 
-    public CompatibilityScoreServiceImpl(
-            CompatibilityScoreRepository repo) {
-        this.repo = repo;
+    public CompatibilityScoreServiceImpl(CompatibilityScoreRecordRepository r, HabitProfileRepository h) {
+        this.repo = r; this.habitRepo = h;
     }
 
-    @Override
-    public CompatibilityScore addScore(CompatibilityScore score) {
-        return repo.save(score);
+    public CompatibilityScoreRecord computeScore(long a, long b) {
+        HabitProfile A = habitRepo.findByStudentId(a).orElseThrow();
+        HabitProfile B = habitRepo.findByStudentId(b).orElseThrow();
+
+        double score = 100 - Math.abs(A.getStudyHoursPerDay() - B.getStudyHoursPerDay()) * 5;
+
+        CompatibilityScoreRecord rec = new CompatibilityScoreRecord();
+        rec.setStudentAId(a);
+        rec.setStudentBId(b);
+        rec.setScore(score);
+
+        return repo.save(rec);
     }
 
-    @Override
-    public List<CompatibilityScore> getAllScores() {
-        return repo.findAll();
+    public List<CompatibilityScoreRecord> getScoresForStudent(long id) {
+        return repo.findByStudentAIdOrStudentBId(id, id);
+    }
+
+    public CompatibilityScoreRecord getScoreById(long id) {
+        return repo.findById(id).orElse(null);
     }
 }
