@@ -18,11 +18,9 @@ public class MatchServiceImpl implements MatchService {
     private final HabitProfileRepository habitRepo;
     private final MatchResultRepository matchRepo;
 
-    public MatchServiceImpl(
-            StudentProfileRepository studentRepo,
-            HabitProfileRepository habitRepo,
-            MatchResultRepository matchRepo) {
-
+    public MatchServiceImpl(StudentProfileRepository studentRepo,
+                            HabitProfileRepository habitRepo,
+                            MatchResultRepository matchRepo) {
         this.studentRepo = studentRepo;
         this.habitRepo = habitRepo;
         this.matchRepo = matchRepo;
@@ -32,20 +30,16 @@ public class MatchServiceImpl implements MatchService {
     public MatchResult computeMatch(Long studentAId, Long studentBId) {
 
         StudentProfile a = studentRepo.findById(studentAId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         StudentProfile b = studentRepo.findById(studentBId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         HabitProfile ha = habitRepo.findByStudentId(studentAId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
 
         HabitProfile hb = habitRepo.findByStudentId(studentBId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
 
         double score = calculateScore(ha, hb);
 
@@ -64,15 +58,13 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<MatchResult> getMatchesFor(Long studentId) {
-        return matchRepo
-                .findByStudentAIdOrStudentBIdOrderByScoreDesc(studentId, studentId);
+        return matchRepo.findByStudentAIdOrStudentBIdOrderByScoreDesc(studentId, studentId);
     }
 
     @Override
     public MatchResult getById(Long id) {
         return matchRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Match not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
     }
 
     private double calculateScore(HabitProfile a, HabitProfile b) {
@@ -80,25 +72,14 @@ public class MatchServiceImpl implements MatchService {
         int total = 0;
         int matched = 0;
 
-        total++;
-        if (a.isSmoking() == b.isSmoking()) matched++;
-
-        total++;
-        if (a.isDrinking() == b.isDrinking()) matched++;
-
-        total++;
-        if (a.getSleepTime().equalsIgnoreCase(b.getSleepTime())) matched++;
-
-        total++;
-        if (a.getWakeTime().equalsIgnoreCase(b.getWakeTime())) matched++;
-
-        total++;
-        if (Math.abs(a.getCleanlinessLevel() - b.getCleanlinessLevel()) <= 1) matched++;
-
-        total++;
-        if (Math.abs(a.getNoisePreference() - b.getNoisePreference()) <= 1) matched++;
+        total++; if (a.isSmoking() == b.isSmoking()) matched++;
+        total++; if (a.isDrinking() == b.isDrinking()) matched++;
+        total++; if (a.getSleepTime().equalsIgnoreCase(b.getSleepTime())) matched++;
+        total++; if (a.getWakeTime().equalsIgnoreCase(b.getWakeTime())) matched++;
+        total++; if (Math.abs(a.getCleanlinessLevel() - b.getCleanlinessLevel()) <= 1) matched++;
+        total++; if (Math.abs(a.getNoisePreference() - b.getNoisePreference()) <= 1) matched++;
 
         double ratio = (double) matched / total;
-        return Math.round(ratio * 100.0 * 100.0) / 100.0;
+        return Math.round(ratio * 10000.0) / 100.0;
     }
 }
