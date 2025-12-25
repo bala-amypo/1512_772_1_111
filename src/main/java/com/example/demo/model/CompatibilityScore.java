@@ -3,11 +3,9 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-public class CompatibilityScoreRecord {
-
+public class CompatibilityScore {
     @Id @GeneratedValue
     private Long id;
-
     private Long studentAId;
     private Long studentBId;
     private double score;
@@ -15,10 +13,8 @@ public class CompatibilityScoreRecord {
     public Long getId() { return id; }
     public Long getStudentAId() { return studentAId; }
     public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
-
     public Long getStudentBId() { return studentBId; }
     public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
-
     public double getScore() { return score; }
     public void setScore(double score) { this.score = score; }
 }

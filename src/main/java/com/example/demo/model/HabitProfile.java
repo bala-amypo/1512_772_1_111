@@ -13,7 +13,6 @@ public class HabitProfile {
 
     @Id @GeneratedValue
     private Long id;
-
     private Long studentId;
     private int studyHoursPerDay;
     private boolean smoking;
@@ -21,13 +20,10 @@ public class HabitProfile {
 
     @Enumerated(EnumType.STRING)
     private CleanlinessLevel cleanlinessLevel;
-
     @Enumerated(EnumType.STRING)
     private NoiseTolerance noiseTolerance;
-
     @Enumerated(EnumType.STRING)
     private SleepSchedule sleepSchedule;
-
     @Enumerated(EnumType.STRING)
     private SocialPreference socialPreference;
 
@@ -60,4 +56,8 @@ public class HabitProfile {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public int getSleepTime() { return sleepSchedule == SleepSchedule.EARLY_BIRD ? 22 : 1; }
+    public int getWakeTime() { return sleepSchedule == SleepSchedule.EARLY_BIRD ? 6 : 10; }
+    public int getNoisePreference() { return noiseTolerance.ordinal(); }
 }

@@ -4,21 +4,14 @@ import jakarta.persistence.*;
 
 @Entity
 public class MatchAttemptRecord {
-
-    public enum Status { SUCCESS, FAILED }
-
     @Id @GeneratedValue
     private Long id;
-
     private Long studentAId;
     private Long studentBId;
-    private Long resultScoreId;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    public void setResultScoreId(long id) { this.resultScoreId = id; }
-    public void setStatus(Status s) { this.status = s; }
-
-    public Status getStatus() { return status; }
+    public Long getId() { return id; }
+    public Long getStudentAId() { return studentAId; }
+    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
+    public Long getStudentBId() { return studentBId; }
+    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
 }
