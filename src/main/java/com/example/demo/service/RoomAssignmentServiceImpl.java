@@ -1,25 +1,22 @@
+package com.example.demo.service;
+
+import com.example.demo.model.RoomAssignmentRecord;
+import com.example.demo.repository.RoomAssignmentRecordRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
 @Service
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     private final RoomAssignmentRecordRepository repo;
 
-    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository r) { this.repo = r; }
+    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo) { this.repo = repo; }
 
-    public RoomAssignmentRecord assignRoom(RoomAssignmentRecord r) {
+    public RoomAssignmentRecord save(RoomAssignmentRecord r) {
         return repo.save(r);
     }
 
-    public RoomAssignmentRecord updateStatus(long id, String s) {
-        RoomAssignmentRecord r = repo.findById(id).orElseThrow();
-        r.setStatus(RoomAssignmentRecord.Status.valueOf(s));
-        return repo.save(r);
-    }
-
-    public List<RoomAssignmentRecord> getAssignmentsByStudent(long id) {
-        return repo.findByStudentAIdOrStudentBId(id, id);
-    }
-
-    public List<RoomAssignmentRecord> getAllAssignments() {
+    public List<RoomAssignmentRecord> getAll() {
         return repo.findAll();
     }
 }

@@ -1,21 +1,22 @@
+package com.example.demo.service;
+
+import com.example.demo.model.MatchAttemptRecord;
+import com.example.demo.repository.MatchAttemptRecordRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository repo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository r) { this.repo = r; }
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) { this.repo = repo; }
 
-    public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord r) {
+    public MatchAttemptRecord save(MatchAttemptRecord r) {
         return repo.save(r);
     }
 
-    public MatchAttemptRecord updateAttemptStatus(long id, String s) {
-        MatchAttemptRecord r = repo.findById(id).orElseThrow();
-        r.setStatus(MatchAttemptRecord.Status.valueOf(s));
-        return repo.save(r);
-    }
-
-    public List<MatchAttemptRecord> getAllMatchAttempts() {
+    public List<MatchAttemptRecord> getAll() {
         return repo.findAll();
     }
 }
