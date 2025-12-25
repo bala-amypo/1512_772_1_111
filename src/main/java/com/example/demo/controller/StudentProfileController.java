@@ -17,17 +17,18 @@ public class StudentProfileController {
     }
 
     @PostMapping
-    public StudentProfile create(@RequestBody StudentProfile s) {
-        return service.createStudent(s);
+    public StudentProfile create(@RequestBody StudentProfile profile) {
+        return service.createStudent(profile);
     }
 
     @GetMapping("/{id}")
     public StudentProfile get(@PathVariable Long id) {
-        return service.getStudentById(id);
+        return service.getStudentById(id)
+                .orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @GetMapping
-    public List<StudentProfile> all() {
+    public List<StudentProfile> getAll() {
         return service.getAllStudents();
     }
 
@@ -38,6 +39,7 @@ public class StudentProfileController {
 
     @GetMapping("/lookup/{studentId}")
     public StudentProfile lookup(@PathVariable String studentId) {
-        return service.findByStudentId(studentId);
+        return service.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("not found"));
     }
 }

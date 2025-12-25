@@ -22,17 +22,19 @@ public class HabitProfileController {
     }
 
     @GetMapping("/student/{studentId}")
-    public HabitProfile byStudent(@PathVariable Long studentId) {
-        return service.getHabitByStudent(studentId);
+    public HabitProfile getByStudent(@PathVariable Long studentId) {
+        return service.getHabitByStudent(studentId)
+                .orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @GetMapping("/{id}")
-    public HabitProfile byId(@PathVariable Long id) {
-        return service.getHabitById(id);
+    public HabitProfile getById(@PathVariable Long id) {
+        return service.getHabitById(id)
+                .orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @GetMapping
-    public List<HabitProfile> all() {
+    public List<HabitProfile> getAll() {
         return service.getAllHabitProfiles();
     }
 }
