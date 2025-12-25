@@ -19,7 +19,7 @@ public class HabitProfileController {
     }
 
     @PostMapping
-    public HabitProfile save(@RequestBody HabitProfile habit) {
+    public HabitProfile createOrUpdate(@RequestBody HabitProfile habit) {
         return service.createOrUpdateHabit(habit);
     }
 

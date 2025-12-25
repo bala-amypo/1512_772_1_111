@@ -2,37 +2,32 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
-import com.example.demo.service.AuthService;
+import com.example.demo.security.JwtUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Auth")
+@Tag(name = "Authentication")
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthenticationManager manager;
+    private final JwtUtil jwt;
 
-    // Constructor Injection
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(
-            @RequestBody AuthRequest request) {
-
-        AuthResponse response = authService.register(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public AuthController(AuthenticationManager manager, JwtUtil jwt) {
+        this.manager = manager;
+        this.jwt = jwt;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(
-            @RequestBody AuthRequest request) {
+    public AuthResponse login(@RequestBody AuthRequest req) {
+        manager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
+        return new AuthResponse(jwt.generateToken(req.getUsername()));
+    }
 
-        AuthResponse response = authService.login(request);
-        return ResponseEntity.ok(response);
+    @PostMapping("/register")
+    public AuthResponse register(@RequestBody AuthRequest req) {
+        return new AuthResponse(jwt.generateToken(req.getUsername()));
     }
 }
