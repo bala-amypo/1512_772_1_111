@@ -1,41 +1,13 @@
-package com.example.demo.controller;
+@GetMapping("/student/{studentId}")
+public ResponseEntity<HabitProfile> getByStudent(@PathVariable long studentId) {
+    return service.getHabitByStudent(studentId)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+}
 
-import com.example.demo.model.HabitProfile;
-import com.example.demo.service.HabitProfileService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/habits")
-public class HabitProfileController {
-
-    private final HabitProfileService service;
-
-    public HabitProfileController(HabitProfileService service) {
-        this.service = service;
-    }
-
-    // CREATE or UPDATE habit
-    @PostMapping
-    public ResponseEntity<HabitProfile> create(@RequestBody HabitProfile h) {
-        return ResponseEntity.ok(service.createOrUpdateHabit(h));
-    }
-
-    // ⚠ Test expects method name: getByStudent(long)
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<HabitProfile> getByStudent(@PathVariable long studentId) {
-        return ResponseEntity.ok(service.getHabitByStudent(studentId));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<HabitProfile> get(@PathVariable long id) {
-        return ResponseEntity.ok(service.getHabitById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<HabitProfile>> getAll() {
-        return ResponseEntity.ok(service.getAllHabitProfiles());
-    }
+@GetMapping("/{id}")
+public ResponseEntity<HabitProfile> get(@PathVariable long id) {
+    return service.getHabitById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
 }
