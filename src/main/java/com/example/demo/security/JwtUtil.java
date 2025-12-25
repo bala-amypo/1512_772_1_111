@@ -8,7 +8,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String secret = "secret";
+    private final String secret = "secretkey123";
     private final long expiration = 86400000;
 
     public String generateToken(String username, String role) {
@@ -21,13 +21,9 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateToken(String username, String role, String email, String userId) {
-        return generateToken(username, role);
-    }
-
-    public boolean validate(String token) {
+    public boolean validateToken(String token) {
         try {
-            extractUsername(token);
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -35,18 +31,10 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(secret)
+        return Jwts.parser()
+                .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
-    public boolean validateToken(String token) {
-    try {
-        Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-        return true;
-    } catch (Exception e) {
-        return false;
-    }
-}
-
 }

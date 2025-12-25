@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HabitProfileServiceImpl implements HabitProfileService {
@@ -26,13 +25,15 @@ public class HabitProfileServiceImpl implements HabitProfileService {
     }
 
     @Override
-    public Optional<HabitProfile> getHabitByStudent(Long studentId) {
-        return repo.findByStudentId(studentId);
+    public HabitProfile getHabitByStudent(Long studentId) {
+        return repo.findByStudentId(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override
-    public Optional<HabitProfile> getHabitById(Long id) {
-        return repo.findById(id);
+    public HabitProfile getHabitById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
@@ -26,8 +25,9 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public Optional<StudentProfile> getStudentById(Long id) {
-        return repo.findById(id);
+    public StudentProfile getStudentById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override
@@ -36,15 +36,15 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public Optional<StudentProfile> findByStudentId(String studentId) {
-        return repo.findByStudentId(studentId);
+    public StudentProfile findByStudentId(String studentId) {
+        return repo.findByStudentId(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override
     public StudentProfile updateStudentStatus(Long id, boolean active) {
-        StudentProfile p = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
-        p.setActive(active);
-        return repo.save(p);
+        StudentProfile s = getStudentById(id);
+        s.setActive(active);
+        return repo.save(s);
     }
 }
