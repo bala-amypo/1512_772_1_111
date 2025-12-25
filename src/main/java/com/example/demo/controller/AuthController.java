@@ -3,31 +3,32 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.security.JwtUtil;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication")
 public class AuthController {
 
-    private final AuthenticationManager manager;
-    private final JwtUtil jwt;
+    private final AuthenticationManager authManager;
+    private final JwtUtil jwtUtil;
 
-    public AuthController(AuthenticationManager manager, JwtUtil jwt) {
-        this.manager = manager;
-        this.jwt = jwt;
+    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil) {
+        this.authManager = authManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest req) {
-        manager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
-        return new AuthResponse(jwt.generateToken(req.getUsername()));
+    public AuthResponse login(@RequestBody AuthRequest request) {
+        authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+        return new AuthResponse(jwtUtil.generateToken(request.getUsername()));
     }
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody AuthRequest req) {
-        return new AuthResponse(jwt.generateToken(req.getUsername()));
+    public AuthResponse register(@RequestBody AuthRequest request) {
+        return new AuthResponse(jwtUtil.generateToken(request.getUsername()));
     }
 }

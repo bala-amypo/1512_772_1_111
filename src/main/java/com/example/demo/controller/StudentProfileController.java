@@ -2,14 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.model.StudentProfile;
 import com.example.demo.service.StudentProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
-@Tag(name = "Student Profiles")
 public class StudentProfileController {
 
     private final StudentProfileService service;
@@ -24,7 +22,7 @@ public class StudentProfileController {
     }
 
     @GetMapping("/{id}")
-    public StudentProfile get(@PathVariable Long id) {
+    public StudentProfile getById(@PathVariable Long id) {
         return service.getStudentById(id);
     }
 

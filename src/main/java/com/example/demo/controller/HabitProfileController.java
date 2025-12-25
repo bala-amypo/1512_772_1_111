@@ -2,14 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/habits")
-@Tag(name = "Habit Profiles")
 public class HabitProfileController {
 
     private final HabitProfileService service;
