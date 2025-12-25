@@ -14,10 +14,11 @@ public class CompatibilityScoreRecord {
 
     public Long getId() { return id; }
     public Long getStudentAId() { return studentAId; }
-    public Long getStudentBId() { return studentBId; }
-    public double getScore() { return score; }
+    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
 
-    public void setStudentAId(Long id) { this.studentAId = id; }
-    public void setStudentBId(Long id) { this.studentBId = id; }
-    public void setScore(double s) { this.score = s; }
+    public Long getStudentBId() { return studentBId; }
+    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
+
+    public double getScore() { return score; }
+    public void setScore(double score) { this.score = score; }
 }
