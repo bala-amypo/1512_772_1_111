@@ -23,9 +23,14 @@ public class StudentProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentProfile> get(@PathVariable long id) {
-        return ResponseEntity.ok(service.getStudentById(id));
-    }
+public ResponseEntity<StudentProfile> get(@PathVariable long id) {
+    return ResponseEntity.ok(service.getStudentById(id).orElseThrow());
+}
+
+@GetMapping("/lookup/{studentId}")
+public ResponseEntity<StudentProfile> lookup(@PathVariable String studentId) {
+    return ResponseEntity.ok(service.findByStudentId(studentId).orElseThrow());
+}
 
     @GetMapping
     public ResponseEntity<List<StudentProfile>> getAll() {

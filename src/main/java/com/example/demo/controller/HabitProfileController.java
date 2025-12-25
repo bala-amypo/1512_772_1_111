@@ -23,14 +23,15 @@ public class HabitProfileController {
     }
 
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<HabitProfile> getByStudent(@PathVariable long studentId) {
-        return ResponseEntity.ok(service.getHabitByStudent(studentId));
-    }
+public ResponseEntity<HabitProfile> getByStudent(@PathVariable long studentId) {
+    return ResponseEntity.ok(service.getHabitByStudent(studentId).orElseThrow());
+}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<HabitProfile> get(@PathVariable long id) {
-        return ResponseEntity.ok(service.getHabitById(id));
-    }
+@GetMapping("/{id}")
+public ResponseEntity<HabitProfile> get(@PathVariable long id) {
+    return ResponseEntity.ok(service.getHabitById(id).orElseThrow());
+}
+
 
     @GetMapping
     public ResponseEntity<List<HabitProfile>> getAll() {
