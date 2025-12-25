@@ -17,18 +17,20 @@ public class HabitProfileController {
         this.service = service;
     }
 
+    // CREATE or UPDATE habit
     @PostMapping
     public ResponseEntity<HabitProfile> create(@RequestBody HabitProfile h) {
         return ResponseEntity.ok(service.createOrUpdateHabit(h));
     }
 
+    // ⚠ Test expects method name: getByStudent(long)
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<HabitProfile> getByStudent(@PathVariable Long studentId) {
+    public ResponseEntity<HabitProfile> getByStudent(@PathVariable long studentId) {
         return ResponseEntity.ok(service.getHabitByStudent(studentId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HabitProfile> get(@PathVariable Long id) {
+    public ResponseEntity<HabitProfile> get(@PathVariable long id) {
         return ResponseEntity.ok(service.getHabitById(id));
     }
 
