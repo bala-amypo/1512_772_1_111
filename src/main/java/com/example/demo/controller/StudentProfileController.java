@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.StudentProfile;
 import com.example.demo.service.StudentProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,29 +18,27 @@ public class StudentProfileController {
     }
 
     @PostMapping
-    public StudentProfile create(@RequestBody StudentProfile profile) {
-        return service.createStudent(profile);
+    public ResponseEntity<StudentProfile> create(@RequestBody StudentProfile p) {
+        return ResponseEntity.ok(service.createStudent(p));
     }
 
     @GetMapping("/{id}")
-    public StudentProfile get(@PathVariable Long id) {
-        return service.getStudentById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
+    public ResponseEntity<StudentProfile> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getStudentById(id));
     }
 
     @GetMapping
-    public List<StudentProfile> getAll() {
-        return service.getAllStudents();
-    }
-
-    @PutMapping("/{id}/status")
-    public StudentProfile updateStatus(@PathVariable Long id, @RequestParam boolean active) {
-        return service.updateStudentStatus(id, active);
+    public ResponseEntity<List<StudentProfile>> getAll() {
+        return ResponseEntity.ok(service.getAllStudents());
     }
 
     @GetMapping("/lookup/{studentId}")
-    public StudentProfile lookup(@PathVariable String studentId) {
-        return service.findByStudentId(studentId)
-                .orElseThrow(() -> new RuntimeException("not found"));
+    public ResponseEntity<StudentProfile> lookup(@PathVariable String studentId) {
+        return ResponseEntity.ok(service.findByStudentId(studentId));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<StudentProfile> updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(service.updateStudentStatus(id, active));
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.HabitProfile;
 import com.example.demo.service.HabitProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,24 +18,22 @@ public class HabitProfileController {
     }
 
     @PostMapping
-    public HabitProfile save(@RequestBody HabitProfile habit) {
-        return service.createOrUpdateHabit(habit);
+    public ResponseEntity<HabitProfile> create(@RequestBody HabitProfile h) {
+        return ResponseEntity.ok(service.createOrUpdateHabit(h));
     }
 
     @GetMapping("/student/{studentId}")
-    public HabitProfile getByStudent(@PathVariable Long studentId) {
-        return service.getHabitByStudent(studentId)
-                .orElseThrow(() -> new RuntimeException("not found"));
+    public ResponseEntity<HabitProfile> getByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(service.getHabitByStudent(studentId));
     }
 
     @GetMapping("/{id}")
-    public HabitProfile getById(@PathVariable Long id) {
-        return service.getHabitById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
+    public ResponseEntity<HabitProfile> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getHabitById(id));
     }
 
     @GetMapping
-    public List<HabitProfile> getAll() {
-        return service.getAllHabitProfiles();
+    public ResponseEntity<List<HabitProfile>> getAll() {
+        return ResponseEntity.ok(service.getAllHabitProfiles());
     }
 }
