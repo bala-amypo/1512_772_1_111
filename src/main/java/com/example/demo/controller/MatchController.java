@@ -1,22 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CompatibilityScoreRecord;
-import com.example.demo.service.CompatibilityScoreService;
+import com.example.demo.service.MatchAttemptService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/match")
-public class MatchController {
+@RequestMapping("/api/match-attempts")
+public class MatchAttemptController {
 
-    private final CompatibilityScoreService service;
+    private final MatchAttemptService service;
 
-    public MatchController(CompatibilityScoreService service) {
+    public MatchAttemptController(MatchAttemptService service) {
         this.service = service;
-    }
-
-    @PostMapping("/{studentAId}/{studentBId}")
-    public CompatibilityScoreRecord match(@PathVariable Long studentAId,
-                                          @PathVariable Long studentBId) {
-        return service.computeScore(studentAId, studentBId);
     }
 }

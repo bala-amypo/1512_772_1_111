@@ -42,4 +42,8 @@ public class RoomAssignmentRecord {
 
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
+    public void setId(Long id) {
+    this.id = id;
+}
+
 }

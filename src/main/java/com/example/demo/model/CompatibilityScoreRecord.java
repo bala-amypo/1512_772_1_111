@@ -49,4 +49,8 @@ public class CompatibilityScoreRecord {
 
     public String getDetailsJson() { return detailsJson; }
     public void setDetailsJson(String detailsJson) { this.detailsJson = detailsJson; }
+    public void setId(Long id) {
+    this.id = id;
+}
+
 }

@@ -41,4 +41,8 @@ public class MatchAttemptRecord {
     public void setStatus(Status status) { this.status = status; }
 
     public LocalDateTime getAttemptedAt() { return attemptedAt; }
+    public void setId(Long id) {
+    this.id = id;
+}
+
 }
