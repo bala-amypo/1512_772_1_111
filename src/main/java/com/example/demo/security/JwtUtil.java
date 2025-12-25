@@ -40,4 +40,13 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
+    public boolean validateToken(String token) {
+    try {
+        Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
+}
+
 }

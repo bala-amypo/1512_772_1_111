@@ -28,4 +28,12 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     public List<MatchAttemptRecord> getAllMatchAttempts() {
         return repo.findAll();
     }
+    @Override
+public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
+    MatchAttemptRecord a = repo.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("not found"));
+    a.setStatus(status);
+    return repo.save(a);
+}
+
 }
