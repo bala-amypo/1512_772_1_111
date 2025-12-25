@@ -1,24 +1,45 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "room_assignments")
 public class RoomAssignmentRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long student1;
-    private Long student2;
     private String roomNumber;
 
-    public Long getId() { return id; }
-    public Long getStudent1() { return student1; }
-    public Long getStudent2() { return student2; }
-    public String getRoomNumber() { return roomNumber; }
+    private Long studentAId;
+    private Long studentBId;
 
-    public void setStudent1(Long student1) { this.student1 = student1; }
-    public void setStudent2(Long student2) { this.student2 = student2; }
+    private LocalDateTime assignedAt = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public enum Status { ACTIVE, COMPLETED, CANCELLED }
+
+    public RoomAssignmentRecord() {}
+
+    // Getters & Setters
+
+    public Long getId() { return id; }
+
+    public String getRoomNumber() { return roomNumber; }
     public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+
+    public Long getStudentAId() { return studentAId; }
+    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
+
+    public Long getStudentBId() { return studentBId; }
+    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
+
+    public LocalDateTime getAssignedAt() { return assignedAt; }
+
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 }

@@ -1,24 +1,44 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "match_attempts")
 public class MatchAttemptRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long studentA;
-    private Long studentB;
-    private int score;
+    private Long initiatorStudentId;
+    private Long candidateStudentId;
+    private Long resultScoreId;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    private LocalDateTime attemptedAt = LocalDateTime.now();
+
+    public enum Status { MATCHED, NOT_COMPATIBLE, PENDING_REVIEW }
+
+    public MatchAttemptRecord() {}
+
+    // Getters & Setters
 
     public Long getId() { return id; }
-    public Long getStudentA() { return studentA; }
-    public Long getStudentB() { return studentB; }
-    public int getScore() { return score; }
 
-    public void setStudentA(Long studentA) { this.studentA = studentA; }
-    public void setStudentB(Long studentB) { this.studentB = studentB; }
-    public void setScore(int score) { this.score = score; }
+    public Long getInitiatorStudentId() { return initiatorStudentId; }
+    public void setInitiatorStudentId(Long initiatorStudentId) { this.initiatorStudentId = initiatorStudentId; }
+
+    public Long getCandidateStudentId() { return candidateStudentId; }
+    public void setCandidateStudentId(Long candidateStudentId) { this.candidateStudentId = candidateStudentId; }
+
+    public Long getResultScoreId() { return resultScoreId; }
+    public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
+
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
+
+    public LocalDateTime getAttemptedAt() { return attemptedAt; }
 }
