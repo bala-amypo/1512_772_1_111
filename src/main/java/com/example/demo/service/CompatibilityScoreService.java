@@ -1,9 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.model.CompatibilityScore;
+import com.example.demo.model.CompatibilityScoreRecord;
+
 import java.util.List;
 
 public interface CompatibilityScoreService {
-    CompatibilityScore addScore(CompatibilityScore score);
-    List<CompatibilityScore> getAllScores();
+
+    CompatibilityScoreRecord computeScore(Long studentAId, Long studentBId);
+
+    CompatibilityScoreRecord getScoreById(Long id);
+
+    List<CompatibilityScoreRecord> getScoresForStudent(Long studentId);
+
+    List<CompatibilityScoreRecord> getAllScores();
 }

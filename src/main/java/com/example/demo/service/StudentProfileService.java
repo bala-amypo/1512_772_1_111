@@ -1,50 +1,47 @@
-package com.example.demo.service;
+package com.example.demo.security;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.StudentProfile;
-import com.example.demo.repository.StudentProfileRepository;
-import org.springframework.stereotype.Service;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.security.Key;
+import java.util.Date;
 
-@Service
-public class StudentProfileService {
+@Component
+public class JwtUtil {
 
-    private final StudentProfileRepository repository;
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final long EXPIRATION = 1000 * 60 * 60 * 24;
 
-    // Constructor Injection (REQUIRED)
-    public StudentProfileService(StudentProfileRepository repository) {
-        this.repository = repository;
+    public String generateToken(String username, String role) {
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("role", role)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .signWith(key)
+                .compact();
     }
 
-    public StudentProfile createStudent(StudentProfile profile) {
-        repository.findByStudentId(profile.getStudentId())
-                .ifPresent(s -> {
-                    throw new IllegalArgumentException("studentId exists");
-                });
-
-        profile.setActive(true);
-        return repository.save(profile);
+    public String extractUsername(String token) {
+        return parseClaims(token).getSubject();
     }
 
-    public StudentProfile getStudentById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("student not found"));
+    public String extractRole(String token) {
+        return parseClaims(token).get("role", String.class);
     }
 
-    public List<StudentProfile> getAllStudents() {
-        return repository.findAll();
+    public boolean validateToken(String token) {
+        try {
+            parseClaims(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 
-    // ✅ ADD THIS METHOD (THIS FIXES YOUR ERROR)
-    public StudentProfile updateStudentStatus(Long id, boolean active) {
-
-        StudentProfile student = repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("student not found"));
-
-        student.setActive(active);
-        return repository.save(student);
+    private Claims parseClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody();
     }
 }
