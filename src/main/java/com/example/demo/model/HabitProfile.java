@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 public class HabitProfile {
-e
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
