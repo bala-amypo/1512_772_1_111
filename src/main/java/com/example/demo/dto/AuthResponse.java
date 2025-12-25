@@ -8,6 +8,10 @@ public class AuthResponse {
 
     public AuthResponse() {}
 
+    public AuthResponse(String token) {
+        this.token = token;
+    }
+
     public AuthResponse(String token, String username, String role) {
         this.token = token;
         this.username = username;

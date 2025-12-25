@@ -4,38 +4,29 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "student_profiles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "studentId"),
-        @UniqueConstraint(columnNames = "email")
-})
 public class StudentProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String studentId;
 
-    @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String email;
 
     private String department;
     private Integer yearLevel;
-
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Boolean active;
+    private LocalDateTime createdAt;
 
     public StudentProfile() {}
 
-    // Getters & Setters
-
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
@@ -56,4 +47,5 @@ public class StudentProfile {
     public void setActive(Boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
