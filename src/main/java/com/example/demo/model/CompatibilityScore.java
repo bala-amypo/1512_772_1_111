@@ -3,47 +3,21 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-public class CompatibilityScore {
+public class CompatibilityScoreRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
     private Long studentAId;
     private Long studentBId;
-    private Integer score;
+    private double score;
 
-    public CompatibilityScore() {}
+    public Long getId() { return id; }
+    public Long getStudentAId() { return studentAId; }
+    public Long getStudentBId() { return studentBId; }
+    public double getScore() { return score; }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getStudentAId() {
-        return studentAId;
-    }
-
-    public void setStudentAId(Long studentAId) {
-        this.studentAId = studentAId;
-    }
-
-    public Long getStudentBId() {
-        return studentBId;
-    }
-
-    public void setStudentBId(Long studentBId) {
-        this.studentBId = studentBId;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
+    public void setStudentAId(Long id) { this.studentAId = id; }
+    public void setStudentBId(Long id) { this.studentBId = id; }
+    public void setScore(double s) { this.score = s; }
 }

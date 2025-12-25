@@ -5,35 +5,23 @@ import jakarta.persistence.*;
 @Entity
 public class RoomAssignmentRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public enum Status { PENDING, APPROVED, REJECTED }
+
+    @Id @GeneratedValue
     private Long id;
 
-    private String roomNumber;
     private Long studentAId;
     private Long studentBId;
-    private String status;
 
-    public RoomAssignmentRecord() {}
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
     public Long getStudentAId() { return studentAId; }
-    public void setStudentAId(Long studentAId) {
-        this.studentAId = studentAId;
-    }
-
     public Long getStudentBId() { return studentBId; }
-    public void setStudentBId(Long studentBId) {
-        this.studentBId = studentBId;
-    }
+    public Status getStatus() { return status; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setStudentAId(Long id) { this.studentAId = id; }
+    public void setStudentBId(Long id) { this.studentBId = id; }
+    public void setStatus(Status s) { this.status = s; }
 }
