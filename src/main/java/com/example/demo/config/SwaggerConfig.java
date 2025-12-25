@@ -17,4 +17,9 @@ public class SwaggerConfig {
                         new Server().url("https://9036.pro604cr.amypo.ai/")
                 ));
     }
+
+    // 👇 ADD THIS METHOD FOR TEST COMPATIBILITY
+    public OpenAPI api() {
+        return customOpenAPI();
+    }
 }
