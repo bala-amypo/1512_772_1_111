@@ -1,9 +1,14 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.model.HabitProfile;
 
+import java.util.List;
+
 public interface HabitProfileService {
-    HabitProfile addHabit(HabitProfile habit);
-    List<HabitProfile> getAllHabits();
+
+    HabitProfile createOrUpdate(Long studentId, HabitProfile habit);
+
+    HabitProfile getForStudent(Long studentId);
+
+    List<HabitProfile> getAll();
 }
