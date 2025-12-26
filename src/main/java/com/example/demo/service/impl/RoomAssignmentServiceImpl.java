@@ -18,26 +18,25 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     @Override
     public RoomAssignmentRecord assign(RoomAssignmentRecord record) {
-        record.setStatus(RoomAssignmentRecord.Status.ASSIGNED);
         return repo.save(record);
     }
 
     @Override
-    public List<RoomAssignmentRecord> getAllAssignments() {
-        return repo.findAll();
-    }
-
-    @Override
-    public List<RoomAssignmentRecord> getAssignmentsByStudent(long studentId) {
-        return repo.findByStudentAIdOrStudentBId(studentId, studentId);
-    }
-
-    @Override
-    public RoomAssignmentRecord updateStatus(long id, String status) {
+    public RoomAssignmentRecord updateStatus(Long id, String status) {
         RoomAssignmentRecord r = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
 
         r.setStatus(RoomAssignmentRecord.Status.valueOf(status));
         return repo.save(r);
+    }
+
+    @Override
+    public List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId) {
+        return repo.findByStudentAIdOrStudentBId(studentId, studentId);
+    }
+
+    @Override
+    public List<RoomAssignmentRecord> getAllAssignments() {
+        return repo.findAll();
     }
 }
