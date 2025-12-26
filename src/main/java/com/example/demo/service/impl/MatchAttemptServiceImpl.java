@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
 import com.example.demo.repository.MatchAttemptRecordRepository;
-import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +12,15 @@ import java.util.List;
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository matchRepo;
-    private final CompatibilityScoreRecordRepository scoreRepo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo,
-                                   CompatibilityScoreRecordRepository scoreRepo) {
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo) {
         this.matchRepo = matchRepo;
-        this.scoreRepo = scoreRepo;
     }
 
     @Override
     public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord record) {
         record.setAttemptedAt(LocalDateTime.now());
+        record.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
         return matchRepo.save(record);
     }
 
@@ -35,5 +32,14 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     @Override
     public List<MatchAttemptRecord> getAttemptsByStudent(long studentId) {
         return matchRepo.findByInitiatorStudentIdOrCandidateStudentId(studentId, studentId);
+    }
+
+    @Override
+    public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
+        MatchAttemptRecord record = matchRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Attempt not found"));
+
+        record.setStatus(MatchAttemptRecord.Status.valueOf(status));
+        return matchRepo.save(record);
     }
 }

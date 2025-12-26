@@ -1,49 +1,69 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "room_assignments")
+@Table(name = "room_assignment_records")
 public class RoomAssignmentRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String roomNumber;
-
     private Long studentAId;
-    private Long studentBId;
 
-    private LocalDateTime assignedAt = LocalDateTime.now();
+    private Long studentBId;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public enum Status { ACTIVE, COMPLETED, CANCELLED }
+    public enum Status {
+        ASSIGNED,
+        CANCELLED,
+        COMPLETED
+    }
 
-    public RoomAssignmentRecord() {}
+    // Constructors
+    public RoomAssignmentRecord() {
+    }
 
-    // Getters & Setters
+    public RoomAssignmentRecord(Long studentAId, Long studentBId, Status status) {
+        this.studentAId = studentAId;
+        this.studentBId = studentBId;
+        this.status = status;
+    }
 
-    public Long getId() { return id; }
+    // Getters and Setters
 
-    public String getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getStudentAId() { return studentAId; }
-    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
+    public void setId(Long id) { 
+        this.id = id; 
+    }
 
-    public Long getStudentBId() { return studentBId; }
-    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
+    public Long getStudentAId() {
+        return studentAId;
+    }
 
-    public LocalDateTime getAssignedAt() { return assignedAt; }
+    public void setStudentAId(Long studentAId) {
+        this.studentAId = studentAId;
+    }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
-    public void setId(Long id) {
-    this.id = id;
-}
+    public Long getStudentBId() {
+        return studentBId;
+    }
 
+    public void setStudentBId(Long studentBId) {
+        this.studentBId = studentBId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
