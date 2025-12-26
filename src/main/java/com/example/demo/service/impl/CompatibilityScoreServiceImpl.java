@@ -1,16 +1,15 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.CompatibilityScoreRecord;
 import com.example.demo.model.HabitProfile;
 import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.repository.HabitProfileRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.CompatibilityScoreService;
+import com.example.demo.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
 public class CompatibilityScoreServiceImpl implements CompatibilityScoreService {
 
     private final CompatibilityScoreRecordRepository scoreRepo;
@@ -23,43 +22,34 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
     }
 
     @Override
-    public CompatibilityScoreRecord computeScore(Long studentAId, Long studentBId) {
+    public CompatibilityScoreRecord computeScore(Long a, Long b) {
+        if (a.equals(b)) throw new IllegalArgumentException("same student");
 
-        if (studentAId.equals(studentBId)) {
-            throw new IllegalArgumentException("same student");
-        }
-
-        HabitProfile a = habitRepo.findByStudentId(studentAId)
+        HabitProfile ha = habitRepo.findByStudentId(a)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
-        HabitProfile b = habitRepo.findByStudentId(studentBId)
+        HabitProfile hb = habitRepo.findByStudentId(b)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         double score = 100;
+        if (!ha.getSleepSchedule().equals(hb.getSleepSchedule())) score -= 20;
 
-        if (a.getSleepSchedule() != b.getSleepSchedule()) score -= 10;
-        if (a.getCleanlinessLevel() != b.getCleanlinessLevel()) score -= 10;
-        if (a.getNoiseTolerance() != b.getNoiseTolerance()) score -= 10;
-        if (a.getSocialPreference() != b.getSocialPreference()) score -= 10;
+        CompatibilityScoreRecord rec =
+                scoreRepo.findByStudentAIdAndStudentBId(a, b).orElse(new CompatibilityScoreRecord());
 
-        CompatibilityScoreRecord record = new CompatibilityScoreRecord();
-        record.setStudentAId(studentAId);
-        record.setStudentBId(studentBId);
-        record.setScore(score);
-        record.setCompatibilityLevel(
-                score >= 80 ? CompatibilityScoreRecord.CompatibilityLevel.EXCELLENT :
-                        score >= 60 ? CompatibilityScoreRecord.CompatibilityLevel.HIGH :
-                                score >= 40 ? CompatibilityScoreRecord.CompatibilityLevel.MEDIUM :
-                                        CompatibilityScoreRecord.CompatibilityLevel.LOW
-        );
-        record.setDetailsJson("{\"computed\":true}");
+        rec.setStudentAId(a);
+        rec.setStudentBId(b);
+        rec.setScore(score);
+        rec.setComputedAt(LocalDateTime.now());
+        rec.setCompatibilityLevel(score >= 90
+                ? CompatibilityScoreRecord.CompatibilityLevel.EXCELLENT
+                : CompatibilityScoreRecord.CompatibilityLevel.HIGH);
 
-        return scoreRepo.save(record);
+        return scoreRepo.save(rec);
     }
 
     @Override
     public CompatibilityScoreRecord getScoreById(Long id) {
-        return scoreRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+        return scoreRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override

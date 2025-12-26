@@ -5,41 +5,59 @@ import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.RoomAssignmentRecordRepository;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.RoomAssignmentService;
-import org.springframework.stereotype.Service;
+import com.example.demo.exception.ResourceNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
-    private final RoomAssignmentRecordRepository roomRepo;
+    private final RoomAssignmentRecordRepository repo;
     private final StudentProfileRepository studentRepo;
 
-    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository roomRepo,
+    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo,
                                      StudentProfileRepository studentRepo) {
-        this.roomRepo = roomRepo;
+        this.repo = repo;
         this.studentRepo = studentRepo;
     }
 
     @Override
-    public RoomAssignmentRecord assignRoom(Long studentId, String roomNumber) {
-        StudentProfile student = studentRepo.findById(studentId).orElseThrow();
+    public RoomAssignmentRecord assignRoom(RoomAssignmentRecord assignment) {
 
-        RoomAssignmentRecord record = new RoomAssignmentRecord();
-        record.setStudentProfile(student);
-        record.setRoomNumber(roomNumber);
-        record.setStatus(RoomAssignmentRecord.Status.ASSIGNED);
+        StudentProfile a = studentRepo.findById(assignment.getStudentAId())
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
-        return roomRepo.save(record);
+        StudentProfile b = studentRepo.findById(assignment.getStudentBId())
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+
+        if (!Boolean.TRUE.equals(a.getActive()) || !Boolean.TRUE.equals(b.getActive())) {
+            throw new IllegalArgumentException("both students must be active");
+        }
+
+        assignment.setStatus(RoomAssignmentRecord.Status.ACTIVE);
+        assignment.setAssignedAt(LocalDateTime.now());
+        return repo.save(assignment);
     }
 
     @Override
-    public RoomAssignmentRecord getAssignmentById(long id) {
-        return roomRepo.findById(id).orElseThrow();
+    public RoomAssignmentRecord getAssignmentById(Long id) {
+        return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override
-    public List<RoomAssignmentRecord> getAll() {
-        return roomRepo.findAll();
+    public List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId) {
+        return repo.findByStudentAIdOrStudentBId(studentId, studentId);
+    }
+
+    @Override
+    public List<RoomAssignmentRecord> getAllAssignments() {
+        return repo.findAll();
+    }
+
+    @Override
+    public RoomAssignmentRecord updateStatus(Long id, String status) {
+        RoomAssignmentRecord r = getAssignmentById(id);
+        r.setStatus(RoomAssignmentRecord.Status.valueOf(status));
+        return repo.save(r);
     }
 }
