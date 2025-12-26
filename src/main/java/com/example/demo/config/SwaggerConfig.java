@@ -10,16 +10,11 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
 
-    @Bean
-    public OpenAPI customOpenAPI() {
+    @Bean(name = "api")
+    public OpenAPI api() {
         return new OpenAPI()
                 .servers(List.of(
                         new Server().url("https://9036.pro604cr.amypo.ai/")
                 ));
-    }
-
-    // 👇 ADD THIS METHOD FOR TEST COMPATIBILITY
-    public OpenAPI api() {
-        return customOpenAPI();
     }
 }
