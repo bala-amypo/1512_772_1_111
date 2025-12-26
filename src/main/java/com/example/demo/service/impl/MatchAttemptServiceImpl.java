@@ -2,42 +2,41 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
 import com.example.demo.repository.MatchAttemptRecordRepository;
+import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository repo;
+    private final CompatibilityScoreRecordRepository scoreRepo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) {
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo,
+                                   CompatibilityScoreRecordRepository scoreRepo) {
         this.repo = repo;
+        this.scoreRepo = scoreRepo;
     }
 
     @Override
-    public MatchAttemptRecord createAttempt(MatchAttemptRecord attempt) {
-        attempt.setAttemptedAt(LocalDateTime.now());
-        return repo.save(attempt);
+    public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord record) {
+        record.setAttemptedAt(LocalDateTime.now());
+        if (record.getStatus() == null) {
+            record.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
+        }
+        return repo.save(record);
     }
 
     @Override
-    public Optional<MatchAttemptRecord> getAttempt(Long id) {
-        return repo.findById(id);
-    }
-
-    @Override
-    public List<MatchAttemptRecord> getAllAttempts() {
+    public List<MatchAttemptRecord> getAllMatchAttempts() {
         return repo.findAll();
     }
 
     @Override
-    public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
-        MatchAttemptRecord record = repo.findById(id).orElseThrow();
-        record.setStatus(MatchAttemptRecord.Status.valueOf(status));
-        return repo.save(record);
+    public List<MatchAttemptRecord> getAttemptsByStudent(Long studentId) {
+        return repo.findByInitiatorStudentIdOrCandidateStudentId(studentId, studentId);
     }
 }
