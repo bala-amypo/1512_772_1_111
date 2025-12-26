@@ -4,6 +4,7 @@ import com.example.demo.model.RoomAssignmentRecord;
 import com.example.demo.repository.RoomAssignmentRecordRepository;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.RoomAssignmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +14,13 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     private final RoomAssignmentRecordRepository repo;
 
-    // Constructor used by Spring
+    // ✅ Spring constructor
+    @Autowired
     public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo) {
         this.repo = repo;
     }
 
-    // Constructor used by tests
+    // ✅ Test constructor
     public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo,
                                      StudentProfileRepository studentRepo) {
         this.repo = repo;

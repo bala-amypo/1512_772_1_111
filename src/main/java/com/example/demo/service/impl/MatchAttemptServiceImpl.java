@@ -4,6 +4,7 @@ import com.example.demo.model.MatchAttemptRecord;
 import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.repository.MatchAttemptRecordRepository;
 import com.example.demo.service.MatchAttemptService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,12 +15,13 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository repo;
 
-    // Constructor used by Spring
+    // ✅ Spring will use THIS constructor
+    @Autowired
     public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) {
         this.repo = repo;
     }
 
-    // Constructor used by tests
+    // ✅ Tests can use this one
     public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo,
                                    CompatibilityScoreRecordRepository compatibilityRepo) {
         this.repo = repo;
