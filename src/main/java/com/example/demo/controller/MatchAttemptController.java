@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/match-attempts")
+@RequestMapping("/api/match-attempts")
 public class MatchAttemptController {
 
     private final MatchAttemptService service;
@@ -18,19 +18,24 @@ public class MatchAttemptController {
     }
 
     @PostMapping
-    public ResponseEntity<MatchAttemptRecord> log(@RequestBody MatchAttemptRecord record) {
-        return ResponseEntity.ok(service.logMatchAttempt(record));
+    public ResponseEntity<MatchAttemptRecord> log(@RequestBody MatchAttemptRecord a) {
+        return ResponseEntity.ok(service.logMatchAttempt(a));
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<MatchAttemptRecord> updateStatus(@PathVariable long id,
-                                                           @RequestParam String status) {
+    public ResponseEntity<MatchAttemptRecord> update(@PathVariable Long id, @RequestParam String status) {
         return ResponseEntity.ok(service.updateAttemptStatus(id, status));
     }
 
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<MatchAttemptRecord>> getByStudent(@PathVariable long studentId) {
-        return ResponseEntity.ok(service.getAttemptsByStudent(studentId));
+    @GetMapping("/student/{id}")
+    public ResponseEntity<List<MatchAttemptRecord>> getForStudent(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getAttemptsByStudent(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MatchAttemptRecord> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getAllMatchAttempts()
+                .stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null));
     }
 
     @GetMapping

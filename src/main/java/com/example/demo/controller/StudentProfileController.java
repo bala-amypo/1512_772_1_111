@@ -23,18 +23,22 @@ public class StudentProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentProfile> get(@PathVariable long id) {
-        return ResponseEntity.ok(service.getStudentById(id).orElseThrow());
-    }
-
-    // ✔ Only one lookup method
-    @GetMapping("/lookup/{studentId}")
-    public ResponseEntity<StudentProfile> lookup(@PathVariable String studentId) {
-        return ResponseEntity.ok(service.findByStudentId(studentId).orElseThrow());
+    public ResponseEntity<StudentProfile> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getStudentById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<StudentProfile>> getAll() {
         return ResponseEntity.ok(service.getAllStudents());
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<StudentProfile> updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(service.updateStudentStatus(id, active));
+    }
+
+    @GetMapping("/lookup/{studentId}")
+    public ResponseEntity<StudentProfile> lookup(@PathVariable String studentId) {
+        return ResponseEntity.ok(service.findByStudentId(studentId).orElse(null));
     }
 }
