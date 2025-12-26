@@ -1,38 +1,49 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final JwtUtil jwt;
-    private final ConcurrentHashMap<String, AuthRequest> users = new ConcurrentHashMap<>();
+    private final JwtUtil jwtUtil;
+    private final Map<String, AuthRequest> users = new HashMap<>();
 
-    public AuthController(JwtUtil jwt) {
-        this.jwt = jwt;
+    public AuthController(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequest r) {
-        if (users.containsKey(r.getUsername())) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> register(@RequestBody AuthRequest req) {
+        if (users.containsKey(req.getUsername())) {
+            return ResponseEntity.badRequest().body("User exists");
         }
-        users.put(r.getUsername(), r);
-        return ResponseEntity.ok().build();
+        users.put(req.getUsername(), req);
+        return ResponseEntity.ok("Registered");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest r) {
-        AuthRequest u = users.get(r.getUsername());
-        if (u == null || !u.getPassword().equals(r.getPassword())) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
+
+        AuthRequest stored = users.get(req.getUsername());
+        if (stored == null || !stored.getPassword().equals(req.getPassword())) {
             return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.ok(jwt.generateToken(r.getUsername(), r.getRole(), r.getEmail(), "1"));
+
+        String token = jwtUtil.generateToken(
+                req.getUsername(),
+                req.getRole() == null ? "USER" : req.getRole(),
+                req.getEmail(),
+                "1"
+        );
+
+        return ResponseEntity.ok(new AuthResponse(token, "1", req.getEmail(), req.getRole()));
     }
 }
