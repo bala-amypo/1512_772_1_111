@@ -1,44 +1,34 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import com.example.demo.model.MatchAttemptRecord;
+import com.example.demo.service.MatchAttemptService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-public class MatchAttemptRecord {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/match-attempts")
+public class MatchAttemptController {
 
-    private long initiatorStudentId;
-    private long candidateStudentId;
-    private Long resultScoreId;
+    private final MatchAttemptService service;
 
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    public enum Status {
-        PENDING,
-        MATCHED,
-        REJECTED
+    public MatchAttemptController(MatchAttemptService service) {
+        this.service = service;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @PostMapping
+    public MatchAttemptRecord log(@RequestBody MatchAttemptRecord record) {
+        return service.logMatchAttempt(record);
+    }
 
-    public long getInitiatorStudentId() { return initiatorStudentId; }
-    public void setInitiatorStudentId(long initiatorStudentId) { this.initiatorStudentId = initiatorStudentId; }
+    @PutMapping("/{id}/status")
+    public MatchAttemptRecord updateStatus(@PathVariable long id,
+                                           @RequestParam String status) {
+        return service.updateAttemptStatus(id, status);
+    }
 
-    public long getCandidateStudentId() { return candidateStudentId; }
-    public void setCandidateStudentId(long candidateStudentId) { this.candidateStudentId = candidateStudentId; }
-
-    public Long getResultScoreId() { return resultScoreId; }
-    public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
-
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    @GetMapping("/student/{studentId}")
+    public List<MatchAttemptRecord> getByStudent(@PathVariable long studentId) {
+        return service.getAttemptsByStudent(studentId);
+    }
 }
