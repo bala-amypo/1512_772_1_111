@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/assignments")
+@RequestMapping("/api/rooms")
 public class RoomAssignmentController {
 
     private final RoomAssignmentService service;
@@ -16,7 +16,12 @@ public class RoomAssignmentController {
     }
 
     @PostMapping
-    public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord record) {
-        return ResponseEntity.ok(service.assign(record));
+    public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord r) {
+        return ResponseEntity.ok(service.assignRoom(r)); // <-- FIXED
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomAssignmentRecord> get(@PathVariable long id) {
+        return ResponseEntity.ok(service.getAssignmentById(id));
     }
 }

@@ -11,7 +11,6 @@ public class RoomAssignmentRecord {
 
     private Long studentAId;
     private Long studentBId;
-
     private String roomNumber;
 
     @Enumerated(EnumType.STRING)
@@ -19,9 +18,10 @@ public class RoomAssignmentRecord {
 
     public enum Status {
         ACTIVE,
-        INACTIVE
+        COMPLETED
     }
 
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

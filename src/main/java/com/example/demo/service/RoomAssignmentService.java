@@ -5,11 +5,13 @@ import java.util.List;
 
 public interface RoomAssignmentService {
 
-    RoomAssignmentRecord assignRoom(RoomAssignmentRecord r);
+    RoomAssignmentRecord assignRoom(RoomAssignmentRecord record);
 
-    RoomAssignmentRecord getAssignmentById(long id);
+    RoomAssignmentRecord updateStatus(Long id, String status);
 
-    List<RoomAssignmentRecord> getAssignmentsByStudent(long id);
+    RoomAssignmentRecord getAssignmentById(Long id);
 
-    RoomAssignmentRecord updateStatus(long id, String status);
+    List<RoomAssignmentRecord> getAssignmentsByStudent(long studentId);
+
+    List<RoomAssignmentRecord> getAllAssignments();
 }

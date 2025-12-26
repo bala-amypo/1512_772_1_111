@@ -5,9 +5,11 @@ import java.util.List;
 
 public interface MatchAttemptService {
 
-    MatchAttemptRecord logMatchAttempt(MatchAttemptRecord a);
+    MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt);
+
+    MatchAttemptRecord updateAttemptStatus(Long id, String status);
 
     List<MatchAttemptRecord> getAllMatchAttempts();
 
-    List<MatchAttemptRecord> getAttemptsByStudent(long id);
+    List<MatchAttemptRecord> getAttemptsByStudent(long studentId);
 }
