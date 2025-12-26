@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.RoomAssignmentRecord;
 import com.example.demo.repository.RoomAssignmentRecordRepository;
+import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.RoomAssignmentService;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,14 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     private final RoomAssignmentRecordRepository repo;
 
+    // Constructor used by Spring
     public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo) {
+        this.repo = repo;
+    }
+
+    // Constructor used by tests
+    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo,
+                                     StudentProfileRepository studentRepo) {
         this.repo = repo;
     }
 

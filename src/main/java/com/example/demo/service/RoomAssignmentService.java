@@ -1,54 +1,17 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.RoomAssignmentRecord;
-import com.example.demo.repository.RoomAssignmentRecordRepository;
-import com.example.demo.repository.StudentProfileRepository;
-import com.example.demo.service.RoomAssignmentService;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-public class RoomAssignmentServiceImpl implements RoomAssignmentService {
+public interface RoomAssignmentService {
 
-    private final RoomAssignmentRecordRepository repo;
+    RoomAssignmentRecord assignRoom(RoomAssignmentRecord record);
 
-    // Constructor used by Spring
-    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo) {
-        this.repo = repo;
-    }
+    RoomAssignmentRecord updateStatus(Long id, String status);
 
-    // Constructor used by tests
-    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo,
-                                     StudentProfileRepository studentRepo) {
-        this.repo = repo;
-    }
+    RoomAssignmentRecord getAssignmentById(Long id);
 
-    @Override
-    public RoomAssignmentRecord assignRoom(RoomAssignmentRecord record) {
-        record.setStatus(RoomAssignmentRecord.Status.ACTIVE);
-        return repo.save(record);
-    }
+    List<RoomAssignmentRecord> getAssignmentsByStudent(long studentId);
 
-    @Override
-    public RoomAssignmentRecord updateStatus(Long id, String status) {
-        RoomAssignmentRecord r = repo.findById(id).orElseThrow();
-        r.setStatus(RoomAssignmentRecord.Status.valueOf(status));
-        return repo.save(r);
-    }
-
-    @Override
-    public RoomAssignmentRecord getAssignmentById(Long id) {
-        return repo.findById(id).orElseThrow();
-    }
-
-    @Override
-    public List<RoomAssignmentRecord> getAssignmentsByStudent(long studentId) {
-        return repo.findByStudentAIdOrStudentBId(studentId, studentId);
-    }
-
-    @Override
-    public List<RoomAssignmentRecord> getAllAssignments() {
-        return repo.findAll();
-    }
+    List<RoomAssignmentRecord> getAllAssignments();
 }
