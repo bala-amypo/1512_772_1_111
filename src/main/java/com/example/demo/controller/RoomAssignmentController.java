@@ -17,11 +17,11 @@ public class RoomAssignmentController {
 
     @PostMapping
     public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord r) {
-        return ResponseEntity.ok(service.assignRoom(r)); // <-- FIXED
+        return ResponseEntity.ok(service.assignRoom(r));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RoomAssignmentRecord> get(@PathVariable long id) {
-        return ResponseEntity.ok(service.getAssignmentById(id));
+    @GetMapping
+    public ResponseEntity<?> all() {
+        return ResponseEntity.ok(service.getAllAssignments());
     }
 }

@@ -4,12 +4,7 @@ import com.example.demo.model.MatchAttemptRecord;
 import java.util.List;
 
 public interface MatchAttemptService {
-
-    MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt);
-
-    MatchAttemptRecord updateAttemptStatus(Long id, String status);
-
+    MatchAttemptRecord logMatchAttempt(MatchAttemptRecord a);
+    MatchAttemptRecord updateAttemptStatus(long id, String status);
     List<MatchAttemptRecord> getAllMatchAttempts();
-
-    List<MatchAttemptRecord> getAttemptsByStudent(long studentId);
 }

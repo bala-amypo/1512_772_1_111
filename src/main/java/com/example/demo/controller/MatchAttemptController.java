@@ -15,13 +15,14 @@ public class MatchAttemptController {
         this.service = service;
     }
 
-    @PostMapping("/log")
-    public ResponseEntity<MatchAttemptRecord> log(@RequestBody MatchAttemptRecord attempt) {
-        return ResponseEntity.ok(service.logMatchAttempt(attempt));
+    @PostMapping
+    public ResponseEntity<MatchAttemptRecord> log(@RequestBody MatchAttemptRecord a) {
+        return ResponseEntity.ok(service.logMatchAttempt(a));
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<MatchAttemptRecord> updateStatus(@PathVariable Long id, @RequestParam String status) {
+    public ResponseEntity<MatchAttemptRecord> update(@PathVariable long id,
+                                                     @RequestParam String status) {
         return ResponseEntity.ok(service.updateAttemptStatus(id, status));
     }
 }
