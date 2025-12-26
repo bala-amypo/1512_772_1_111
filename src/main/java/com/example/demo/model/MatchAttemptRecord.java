@@ -14,14 +14,14 @@ public class MatchAttemptRecord {
     private Long candidateStudentId;
     private Long resultScoreId;
 
-    private LocalDateTime attemptedAt;
-
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private LocalDateTime attemptedAt;
+
     public enum Status {
         PENDING_REVIEW,
-        ACCEPTED,
+        MATCHED,
         REJECTED
     }
 
@@ -37,9 +37,9 @@ public class MatchAttemptRecord {
     public Long getResultScoreId() { return resultScoreId; }
     public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
 
-    public LocalDateTime getAttemptedAt() { return attemptedAt; }
-    public void setAttemptedAt(LocalDateTime attemptedAt) { this.attemptedAt = attemptedAt; }
-
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
+
+    public LocalDateTime getAttemptedAt() { return attemptedAt; }
+    public void setAttemptedAt(LocalDateTime attemptedAt) { this.attemptedAt = attemptedAt; }
 }
