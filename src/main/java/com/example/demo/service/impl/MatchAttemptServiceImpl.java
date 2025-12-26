@@ -25,4 +25,9 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     public List<MatchAttemptRecord> getAllMatchAttempts() {
         return repo.findAll();
     }
+
+    @Override
+    public List<MatchAttemptRecord> getAttemptsByStudent(long studentId) {
+        return repo.findByStudentId(studentId);
+    }
 }

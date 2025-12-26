@@ -22,6 +22,11 @@ public class HabitProfileServiceImpl implements HabitProfileService {
     }
 
     @Override
+    public HabitProfile getHabitById(Long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    @Override
     public List<HabitProfile> getAllHabitProfiles() {
         return repo.findAll();
     }

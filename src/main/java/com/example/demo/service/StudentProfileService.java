@@ -4,7 +4,12 @@ import com.example.demo.model.StudentProfile;
 import java.util.List;
 
 public interface StudentProfileService {
-    StudentProfile create(StudentProfile profile);
-    List<StudentProfile> getAll();
-    StudentProfile getById(Long id);
+
+    StudentProfile createStudent(StudentProfile profile);
+
+    StudentProfile getStudentById(long id);
+
+    StudentProfile findByStudentId(String studentId);
+
+    List<StudentProfile> getAllStudents();
 }

@@ -19,4 +19,9 @@ public class RoomAssignmentController {
                                        @RequestParam String room) {
         return service.assignRoom(studentId, room);
     }
+
+    @GetMapping("/{id}")
+    public RoomAssignmentRecord get(@PathVariable long id) {
+        return service.getAssignmentById(id);
+    }
 }
