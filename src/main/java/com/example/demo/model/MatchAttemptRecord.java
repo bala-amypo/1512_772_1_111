@@ -15,12 +15,12 @@ public class MatchAttemptRecord {
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
+    private Status status = Status.PENDING_REVIEW;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum Status {
-        PENDING,
+        PENDING_REVIEW,
         MATCHED,
         REJECTED
     }
