@@ -15,7 +15,7 @@ public class RoomAssignmentController {
     }
 
     @PostMapping("/assign")
-    public RoomAssignmentRecord assign(@RequestParam long studentId,
+    public RoomAssignmentRecord assign(@RequestParam Long studentId,
                                        @RequestParam String room) {
         return service.assignRoom(studentId, room);
     }
