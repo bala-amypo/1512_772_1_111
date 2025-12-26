@@ -5,40 +5,18 @@ import java.time.LocalDateTime;
 
 @Entity
 public class MatchAttemptRecord {
+    public enum Status { MATCHED, NOT_COMPATIBLE, PENDING_REVIEW }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
-
-    private long initiatorStudentId;
-    private long candidateStudentId;
+    private Long initiatorStudentId;
+    private Long candidateStudentId;
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING_REVIEW;
+    private Status status;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime attemptedAt;
 
-    public enum Status {
-        PENDING_REVIEW,
-        MATCHED,
-        REJECTED
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public long getInitiatorStudentId() { return initiatorStudentId; }
-    public void setInitiatorStudentId(long initiatorStudentId) { this.initiatorStudentId = initiatorStudentId; }
-
-    public long getCandidateStudentId() { return candidateStudentId; }
-    public void setCandidateStudentId(long candidateStudentId) { this.candidateStudentId = candidateStudentId; }
-
-    public Long getResultScoreId() { return resultScoreId; }
-    public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
-
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    // getters & setters
 }
