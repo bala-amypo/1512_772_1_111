@@ -1,31 +1,33 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.StudentProfileRepository;
-import com.example.demo.service.StudentService;
+import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentProfileServiceImpl implements StudentProfileService {
 
     private final StudentProfileRepository repo;
 
-    public StudentServiceImpl(StudentProfileRepository repo) {
+    public StudentProfileServiceImpl(StudentProfileRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public StudentProfile createStudent(StudentProfile s) {
-        if (repo.existsByStudentId(s.getStudentId())) {
-            throw new IllegalArgumentException("Duplicate studentId");
-        }
-        return repo.save(s);
+    public StudentProfile create(StudentProfile profile) {
+        return repo.save(profile);
     }
 
     @Override
-    public StudentProfile getStudentByStudentId(long studentId) {
-        return repo.findByStudentId(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    public List<StudentProfile> getAll() {
+        return repo.findAll();
+    }
+
+    @Override
+    public StudentProfile getById(Long id) {
+        return repo.findById(id).orElseThrow();
     }
 }

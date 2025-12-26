@@ -1,29 +1,33 @@
+package com.example.demo.service.impl;
+
+import com.example.demo.model.RoomAssignmentRecord;
+import com.example.demo.model.StudentProfile;
+import com.example.demo.repository.RoomAssignmentRecordRepository;
+import com.example.demo.repository.StudentProfileRepository;
+import com.example.demo.service.RoomAssignmentService;
+import org.springframework.stereotype.Service;
+
 @Service
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
-    private final RoomAssignmentRecordRepository repo;
+    private final RoomAssignmentRecordRepository roomRepo;
     private final StudentProfileRepository studentRepo;
 
-    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo,
+    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository roomRepo,
                                      StudentProfileRepository studentRepo) {
-        this.repo = repo;
+        this.roomRepo = roomRepo;
         this.studentRepo = studentRepo;
     }
 
     @Override
-    public RoomAssignmentRecord assignRoom(long studentId, String room) {
-        StudentProfile s = studentRepo.findByStudentId(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    public RoomAssignmentRecord assignRoom(Long studentId, String room) {
+        StudentProfile student = studentRepo.findById(studentId).orElseThrow();
 
-        if (!"ACTIVE".equalsIgnoreCase(s.getStatus())) {
-            throw new IllegalArgumentException("Student inactive");
-        }
+        RoomAssignmentRecord record = new RoomAssignmentRecord();
+        record.setStudent(student);
+        record.setRoomNumber(room);
+        record.setStatus(RoomAssignmentRecord.Status.ASSIGNED);
 
-        RoomAssignmentRecord r = new RoomAssignmentRecord();
-        r.setStudent(s);
-        r.setRoom(room);
-        r.setStatus(RoomAssignmentRecord.Status.ASSIGNED);
-
-        return repo.save(r);
+        return roomRepo.save(record);
     }
 }
