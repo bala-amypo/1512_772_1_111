@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface RoomAssignmentRecordRepository extends JpaRepository<RoomAssignmentRecord, Long> {
 
-    List<RoomAssignmentRecord> findByStudentAIdOrStudentBId(Long a, Long b);
+    List<RoomAssignmentRecord> findByStudentAIdOrStudentBId(long a, long b);
 }

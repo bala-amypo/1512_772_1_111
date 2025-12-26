@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "match_attempts")
 public class MatchAttemptRecord {
 
     @Id
@@ -16,24 +15,30 @@ public class MatchAttemptRecord {
     private Long resultScoreId;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.PENDING;
 
-    private LocalDateTime attemptedAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum Status {
-        PENDING_REVIEW,
-        MATCHED
+        PENDING,
+        MATCHED,
+        REJECTED
     }
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public long getInitiatorStudentId() { return initiatorStudentId; }
-    public void setInitiatorStudentId(long id) { this.initiatorStudentId = id; }
+    public void setInitiatorStudentId(long initiatorStudentId) { this.initiatorStudentId = initiatorStudentId; }
+
     public long getCandidateStudentId() { return candidateStudentId; }
-    public void setCandidateStudentId(long id) { this.candidateStudentId = id; }
+    public void setCandidateStudentId(long candidateStudentId) { this.candidateStudentId = candidateStudentId; }
+
     public Long getResultScoreId() { return resultScoreId; }
-    public void setResultScoreId(Long id) { this.resultScoreId = id; }
+    public void setResultScoreId(Long resultScoreId) { this.resultScoreId = resultScoreId; }
+
     public Status getStatus() { return status; }
-    public void setStatus(Status s) { this.status = s; }
-    public LocalDateTime getAttemptedAt() { return attemptedAt; }
-    public void setAttemptedAt(LocalDateTime t) { this.attemptedAt = t; }
+    public void setStatus(Status status) { this.status = status; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }

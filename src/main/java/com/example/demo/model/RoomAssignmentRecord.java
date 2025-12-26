@@ -3,7 +3,6 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "room_assignments")
 public class RoomAssignmentRecord {
 
     @Id
@@ -15,20 +14,26 @@ public class RoomAssignmentRecord {
     private String roomNumber;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     public enum Status {
         ACTIVE,
-        COMPLETED
+        COMPLETED,
+        CANCELLED
     }
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public long getStudentAId() { return studentAId; }
-    public void setStudentAId(long id) { this.studentAId = id; }
+    public void setStudentAId(long studentAId) { this.studentAId = studentAId; }
+
     public long getStudentBId() { return studentBId; }
-    public void setStudentBId(long id) { this.studentBId = id; }
+    public void setStudentBId(long studentBId) { this.studentBId = studentBId; }
+
     public String getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(String r) { this.roomNumber = r; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+
     public Status getStatus() { return status; }
-    public void setStatus(Status s) { this.status = s; }
+    public void setStatus(Status status) { this.status = status; }
 }
