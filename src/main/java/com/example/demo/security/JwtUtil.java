@@ -37,4 +37,12 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
+    public boolean validate(String token) {
+    return validateToken(token);
+}
+
+public String generateToken(String user, String role, String a, String b) {
+    return generateToken(user, role);
+}
+
 }
