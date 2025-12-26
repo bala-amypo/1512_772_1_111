@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
+import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.repository.MatchAttemptRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,14 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
 
     private final MatchAttemptRecordRepository repo;
 
+    // Constructor used by Spring
     public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) {
+        this.repo = repo;
+    }
+
+    // Constructor used by tests
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo,
+                                   CompatibilityScoreRecordRepository compatibilityRepo) {
         this.repo = repo;
     }
 

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/matches")
+@RequestMapping("/api/match-attempts")
 public class MatchAttemptController {
 
     private final MatchAttemptService service;
@@ -15,8 +15,13 @@ public class MatchAttemptController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<MatchAttemptRecord> create(@RequestBody MatchAttemptRecord r) {
-        return ResponseEntity.ok(service.logMatchAttempt(r));
+    @PostMapping("/log")
+    public ResponseEntity<MatchAttemptRecord> log(@RequestBody MatchAttemptRecord attempt) {
+        return ResponseEntity.ok(service.logMatchAttempt(attempt));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<MatchAttemptRecord> updateStatus(@PathVariable Long id, @RequestParam String status) {
+        return ResponseEntity.ok(service.updateAttemptStatus(id, status));
     }
 }
