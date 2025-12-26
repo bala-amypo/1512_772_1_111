@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RoomAssignmentRecord;
 import com.example.demo.service.RoomAssignmentService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,13 +14,9 @@ public class RoomAssignmentController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord r) {
-        return ResponseEntity.ok(service.assignRoom(r));
-    }
-
-    @GetMapping
-    public ResponseEntity<?> all() {
-        return ResponseEntity.ok(service.getAllAssignments());
+    @PostMapping("/assign")
+    public RoomAssignmentRecord assign(@RequestParam long studentId,
+                                       @RequestParam String room) {
+        return service.assignRoom(studentId, room);
     }
 }
