@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.MatchAttemptRecord;
 import com.example.demo.repository.MatchAttemptRecordRepository;
+import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
 
@@ -11,37 +12,28 @@ import java.util.List;
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
-    private final MatchAttemptRecordRepository repo;
+    private final MatchAttemptRecordRepository matchRepo;
+    private final CompatibilityScoreRecordRepository scoreRepo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) {
-        this.repo = repo;
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository matchRepo,
+                                   CompatibilityScoreRecordRepository scoreRepo) {
+        this.matchRepo = matchRepo;
+        this.scoreRepo = scoreRepo;
     }
 
     @Override
     public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord record) {
         record.setAttemptedAt(LocalDateTime.now());
-        if (record.getStatus() == null) {
-            record.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
-        }
-        return repo.save(record);
+        return matchRepo.save(record);
     }
 
     @Override
     public List<MatchAttemptRecord> getAllMatchAttempts() {
-        return repo.findAll();
+        return matchRepo.findAll();
     }
 
     @Override
     public List<MatchAttemptRecord> getAttemptsByStudent(long studentId) {
-        return repo.findByInitiatorStudentIdOrCandidateStudentId(studentId, studentId);
-    }
-
-    @Override
-    public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
-        MatchAttemptRecord record = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Attempt not found"));
-
-        record.setStatus(MatchAttemptRecord.Status.valueOf(status));
-        return repo.save(record);
+        return matchRepo.findByInitiatorStudentIdOrCandidateStudentId(studentId, studentId);
     }
 }
