@@ -7,9 +7,13 @@ import java.util.Collections;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        return new User(username, "{noop}password",
-                Collections.singleton(() -> "ROLE_USER"));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (!"admin".equals(username)) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return new User("admin", "{noop}admin", Collections.emptyList());
     }
 }
