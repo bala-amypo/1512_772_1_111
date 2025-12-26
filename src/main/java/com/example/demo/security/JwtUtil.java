@@ -14,9 +14,10 @@ public class JwtUtil {
     }
 
     public void validate(String token) {
-        if (token == null || token.isBlank()) {
+        try {
+            Base64.getDecoder().decode(token);
+        } catch (Exception e) {
             throw new RuntimeException("Invalid token");
         }
-        // no-op otherwise
     }
 }
