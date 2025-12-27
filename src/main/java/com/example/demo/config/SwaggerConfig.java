@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,11 +11,12 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI api() {
-        return new OpenAPI().info(
-            new Info()
+        return new OpenAPI()
+            .addServersItem(new Server().url("https://9036.pro604cr.amypo.ai"))
+            .info(new Info()
                 .title("Hostel Roommate Compatibility Matcher API")
                 .version("1.0")
                 .description("API documentation for hostel roommate matching system")
-        );
+            );
     }
 }
