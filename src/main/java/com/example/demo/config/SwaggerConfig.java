@@ -17,7 +17,7 @@ public class SwaggerConfig {
         return new OpenAPI()
             .addServersItem(new Server().url("https://9036.pro604cr.amypo.ai"))
 
-            // 🔐 Add security scheme
+            
             .components(new Components()
                 .addSecuritySchemes("bearerAuth",
                     new SecurityScheme()
@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 )
             )
 
-            // 🔐 Apply security globally
+            //  Apply security globally
             .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
 
             .info(new Info()
